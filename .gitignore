@@ -1,0 +1,9 @@
+node_modules
+dist
+.leads
+.env
+.env.local
+.wrangler
+.DS_Store
+.dev.vars
+dist-review

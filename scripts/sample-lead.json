@@ -1,0 +1,51 @@
+{
+  "design": {
+    "kind": "pergola",
+    "line": "lux",
+    "roof": "louvered",
+    "mounting": "attached",
+    "width": 168,
+    "depth": 192,
+    "height": 108,
+    "louverDirection": "auto",
+    "frameColor": "black",
+    "louverColor": "grey",
+    "sides": {
+      "front": { "type": "screen", "fabric": "95" },
+      "back": { "type": "none" },
+      "left": { "type": "glass-frameless" },
+      "right": { "type": "none" }
+    },
+    "ledWarm": true,
+    "rgb": false,
+    "rainSensor": true,
+    "windSensor": false,
+    "fans": 1,
+    "heaters": 2,
+    "control": "app"
+  },
+  "view": { "louverAngle": 45, "hour": 17, "showDimensions": true },
+  "site": {
+    "name": "Test Customer",
+    "phone": "(214) 555-0142",
+    "email": "test.customer@example.com",
+    "zip": "75034",
+    "city": "Frisco",
+    "use": "residential",
+    "timeframe": "1-3mo",
+    "notes": "Backyard faces west. Want shade by 4pm.",
+    "consent": true
+  },
+  "estimate": {
+    "low": 30000,
+    "high": 40000,
+    "items": [{ "id": "structure", "label": "Lux louvered pergola 14' x 16'", "qty": 1, "low": 20000, "high": 26000, "group": "structure" }],
+    "monthly": 583,
+    "termMonths": 60,
+    "disclaimer": ""
+  },
+  "shareUrl": "http://localhost:5173/?p=pergola&w=168",
+  "snapshot": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAFklEQVR4nGP4z8Dwn4GBgYGJAQoAAP0eAQEz5IwRAAAAAElFTkSuQmCC",
+  "source": { "device": "desktop", "utm": { "utm_source": "google", "utm_medium": "cpc" }, "page": "https://99pergolas.com/design-your-pergola/" },
+  "website": ""
+}

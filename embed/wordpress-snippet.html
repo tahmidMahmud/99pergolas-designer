@@ -1,0 +1,47 @@
+<!--
+  99 Pergolas 3D Designer — paste this whole block into ONE Divi "Code" module
+  (Section: fullwidth or regular, Row: 1 column, Module: Code). See embed/README.md.
+  Change only DESIGNER_URL if the app is hosted somewhere else.
+  Tip: keep it as-is (no blank lines inside <script>) so WordPress does not insert <p> tags.
+-->
+<div class="p99-designer-wrap" style="width:100%;max-width:1440px;margin:0 auto;">
+  <iframe id="p99-designer"
+    title="Design your pergola in 3D — 99 Pergolas"
+    src="https://design.99pergolas.com/?embed=1"
+    allow="fullscreen; xr-spatial-tracking; web-share; clipboard-write"
+    allowfullscreen
+    loading="eager"
+    referrerpolicy="strict-origin-when-cross-origin"
+    style="display:block;width:100%;height:860px;min-height:640px;border:0;border-radius:14px;background:#F2F1EC;overflow:hidden;"></iframe>
+  <p style="text-align:center;font-size:14px;line-height:1.5;margin:12px 0 0;color:#62655D;">
+    Prefer full screen? <a href="https://design.99pergolas.com/" target="_blank" rel="noopener" style="color:#8F6A2B;">Open the designer</a>
+    &nbsp;·&nbsp; Or <a href="/free-estimate-custom-pergola/" style="color:#8F6A2B;">request a free estimate</a> &nbsp;·&nbsp; <a href="tel:+16822415877" style="color:#8F6A2B;">(682) 241-5877</a>
+  </p>
+  <noscript><p style="text-align:center;"><a href="https://design.99pergolas.com/">Open the 3D designer</a> or <a href="/free-estimate-custom-pergola/">request a free estimate</a>.</p></noscript>
+</div>
+<script>
+(function () {
+  var f = document.getElementById('p99-designer'); if (!f || f.dataset.ready) return; f.dataset.ready = '1';
+  var u = new URL(f.getAttribute('src'), location.href), ORIGIN = u.origin;
+  var q = new URLSearchParams(location.search), src = {};
+  ['utm_source','utm_medium','utm_campaign','utm_term','utm_content','utm_id','gclid','gbraid','wbraid','fbclid','msclkid','ttclid'].forEach(function (k) {
+    var v = q.get(k); if (v) { src[k] = v; u.searchParams.set(k, v); }
+  });
+  var hutk = (document.cookie.match(/(?:^|;\s*)hubspotutk=([a-f0-9]+)/i) || [])[1];
+  if (hutk) src.hutk = hutk;
+  src.page = location.origin + location.pathname; if (document.referrer) src.ref = document.referrer;
+  u.searchParams.set('src', JSON.stringify(src));
+  f.src = u.toString();
+  function fit(h) { var max = Math.max(640, window.innerHeight - 24); f.style.height = Math.round(Math.max(640, Math.min(h, max))) + 'px'; }
+  var last = 0; window.addEventListener('resize', function () { if (last) fit(last); });
+  window.addEventListener('message', function (e) {
+    var d = e.data; if (e.origin !== ORIGIN || e.source !== f.contentWindow || !d || typeof d !== 'object') return;
+    if (d.type === '99p:height' && d.height > 0) { last = +d.height; fit(last); }
+    else if (d.type === '99p:ready' && hutk) { f.contentWindow.postMessage({ type: '99p:hutk', value: hutk }, ORIGIN); }
+    else if (d.type === '99p:lead') {
+      if (typeof window.gtag === 'function') window.gtag('event', 'generate_lead', { form_id: '99p-designer', product: d.kind, value: d.value || 0, currency: 'USD' });
+      if (typeof window.fbq === 'function') window.fbq('track', 'Lead', { content_name: d.kind, value: d.value || 0, currency: 'USD' });
+    }
+  });
+})();
+</script>

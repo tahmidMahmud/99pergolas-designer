@@ -1,0 +1,44 @@
+# Cloudflare Pages project for the 99 Pergolas designer (static Vite build + Pages Functions in /functions).
+# Deploy: `npm run build && npx wrangler pages deploy dist` (or connect the GitHub repo in the dashboard).
+# Secrets are NOT stored here: `npx wrangler pages secret put RESEND_API_KEY` (see docs/DEPLOY.md).
+name = "pergola-designer"
+pages_build_output_dir = "dist"
+compatibility_date = "2026-10-30"
+
+# Saved designs (/d/<code>), snapshot images (/og/<code>) and rate-limit counters.
+# Create with: npx wrangler kv namespace create DESIGNS   (and --preview for preview_id)
+[[kv_namespaces]]
+binding = "DESIGNS"
+id = "REPLACE_WITH_KV_NAMESPACE_ID"
+
+[vars]
+FROM_EMAIL = "99 Pergolas <designs@99pergolas.com>"
+LEAD_TO = "info@99pergolas.com"
+REPLY_TO = "info@99pergolas.com"
+ALLOWED_ORIGINS = "https://99pergolas.com,https://www.99pergolas.com"
+PUBLIC_BASE_URL = "https://design.99pergolas.com"
+SEND_CUSTOMER_EMAIL = "true"
+RATE_LIMIT = "5"
+# Optional (leave unset to disable):
+# LEAD_BCC = "owner@example.com"
+# HUBSPOT_PORTAL_ID = "12345678"
+# HUBSPOT_FORM_GUID = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+
+# Secrets (set per environment, never commit):
+#   RESEND_API_KEY      re_...
+#   ZAPIER_WEBHOOK_URL  https://hooks.zapier.com/hooks/catch/...
+#   WEBHOOK_SECRET      random string, sent as X-Webhook-Secret
+
+# Preview deployments (branch builds) should not email the real inbox:
+[env.preview.vars]
+FROM_EMAIL = "99 Pergolas <designs@99pergolas.com>"
+LEAD_TO = "dev@example.com"
+REPLY_TO = "dev@example.com"
+ALLOWED_ORIGINS = "https://99pergolas.com,https://www.99pergolas.com"
+PUBLIC_BASE_URL = ""
+SEND_CUSTOMER_EMAIL = "false"
+RATE_LIMIT = "20"
+
+[[env.preview.kv_namespaces]]
+binding = "DESIGNS"
+id = "REPLACE_WITH_PREVIEW_KV_NAMESPACE_ID"
