@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="99 Pergolas">
+  <rect width="64" height="64" rx="14" fill="#171A18"/>
+  <!-- louvered cube: roof frame, four blades, two posts -->
+  <g fill="none" stroke="#B4863B" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M32 11 54 21 32 31 10 21Z"/>
+    <path d="M10 21v6l22 10 22-10v-6"/>
+    <path d="M14 31v18M50 31v18M32 37v18"/>
+  </g>
+  <g stroke="#B4863B" stroke-width="2.4" stroke-linecap="round" opacity=".9">
+    <path d="M19.5 17.5 37 25.5M24.5 15.2 42 23.2M29.5 13 47 21M15 19.8 31.5 27.3"/>
+  </g>
+</svg>
