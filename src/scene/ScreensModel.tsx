@@ -144,10 +144,12 @@ export function ScreensModel({ design }: { design: ScreensDesign }) {
   );
 
   return (
-    <group>
-      <mesh geometry={wallGeo} material={wallMat} castShadow receiveShadow />
+    <group userData={{ arRoot: true }}>
+      <mesh geometry={wallGeo} material={wallMat} castShadow receiveShadow userData={{ arSkip: true }} />
       <MergedMeshes parts={parts} />
-      {showDims && <DimensionSet dims={dims} scale={Math.max(L.wallW, L.wallH) * 0.8} />}
+      <group userData={{ arSkip: true }}>
+        {showDims && <DimensionSet dims={dims} scale={Math.max(L.wallW, L.wallH) * 0.8} />}
+      </group>
     </group>
   );
 }

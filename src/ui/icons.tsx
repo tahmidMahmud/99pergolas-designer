@@ -31,6 +31,7 @@ export const IconTrash = (p: P) => <Svg {...p}><path d="M4 7h16M10 11v6M14 11v6M
 export const IconCalendar = (p: P) => <Svg {...p}><rect x="4" y="5" width="16" height="15" rx="2" /><path d="M4 10h16M9 3v4M15 3v4" /></Svg>;
 export const IconRuler = (p: P) => <Svg {...p}><path d="M3 17L17 3l4 4L7 21z" /><path d="M7 13l2 2M10 10l2 2M13 7l2 2" /></Svg>;
 export const IconLouvers = (p: P) => <Svg {...p}><path d="M4 7l4-3M9 7l4-3M14 7l4-3M4 13l4-3M9 13l4-3M14 13l4-3M3 18h18" /></Svg>;
+export const IconAr = (p: P) => <Svg {...p}><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z" /><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5" /></Svg>;
 export const IconAlert = (p: P) => <Svg {...p}><path d="M12 3l9.5 17h-19z" /><path d="M12 10v4M12 17h.01" /></Svg>;
 
 /* ---------- Mounting illustrations (120 x 80, oblique view) ---------- */

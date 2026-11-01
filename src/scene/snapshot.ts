@@ -22,6 +22,11 @@ export function registerScene(r: Registry | null): void {
   emit();
 }
 
+/** The live scene graph (null until a Viewer is mounted). Used by AR export. */
+export function getScene(): THREE.Scene | null {
+  return reg?.scene ?? null;
+}
+
 export function registerFit(fn: ((instant?: boolean) => void) | undefined): void {
   if (reg) reg.fit = fn;
 }

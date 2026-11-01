@@ -148,3 +148,12 @@ Follow `embed/README.md` → Option A: a new page `/design-your-pergola/` with o
 - **Pricing changes:** edit `src/config/catalog.ts` / `pricing.ts`, run `npm test`, push. The server recomputes estimates with the same code, so the UI and the emails always agree.
 - **Spam:** the defenses are the honeypot field, the per-IP rate limit and server validation. If spam shows up, add Cloudflare Turnstile (see HANDOFF roadmap) or a WAF rate-limit rule on `/api/lead`.
 - **Data retention:** KV holds only the design, view, estimate and snapshot (2 years for designs, 1 year for images), and no personal data. Lead PII lives only in the emails and in the CRM, if configured.
+
+## Review build on GitHub Pages (no backend)
+
+The public review copy at https://tahmidmahmud.github.io/99pergolas-designer/ is a static build on the `gh-pages` branch. There is no `/api/lead` there, so the estimate form falls back to a pre-filled email draft. To republish after changes:
+
+```bash
+npx vite build --base /99pergolas-designer/ --outDir dist-pages
+cd dist-pages && git init -q && git add -A && git commit -qm "Pages build" && git push -f https://github.com/tahmidMahmud/99pergolas-designer.git HEAD:gh-pages
+```

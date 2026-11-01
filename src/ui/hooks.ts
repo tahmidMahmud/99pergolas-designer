@@ -6,10 +6,20 @@ import type { Design, Estimate, PergolaDesign } from '../types';
 import { clamp, estimate, validate } from './deps';
 import { plusRange } from './format';
 
-export const useUi = create<{ leadOpen: boolean; openLead: () => void; closeLead: () => void }>((set) => ({
+export const useUi = create<{
+  leadOpen: boolean;
+  openLead: () => void;
+  closeLead: () => void;
+  arOpen: boolean;
+  openAr: () => void;
+  closeAr: () => void;
+}>((set) => ({
   leadOpen: false,
-  openLead: () => set({ leadOpen: true }),
+  openLead: () => set({ leadOpen: true, arOpen: false }),
   closeLead: () => set({ leadOpen: false }),
+  arOpen: false,
+  openAr: () => set({ arOpen: true }),
+  closeAr: () => set({ arOpen: false }),
 }));
 
 export function useEstimate(): Estimate {

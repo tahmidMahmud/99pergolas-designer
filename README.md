@@ -20,6 +20,16 @@ npm run build            # dist/ for Cloudflare Pages
 npm run preview:cf       # dist + real Pages Functions under wrangler (needs .dev.vars)
 ```
 
+## View in AR
+
+The viewer's **View in AR** chip exports the current design on the fly (`src/scene/arExport.ts`):
+
+- **iPhone / iPad** – a USDZ at real-world scale opens in AR Quick Look (`<a rel="ar">`), locked to 1:1 (`allowsContentScaling=0`) with a "Get my free estimate" banner that reopens the lead form.
+- **Android Chrome** – a WebXR `immersive-ar` session with floor hit-testing; tap to place (`src/scene/webxr.ts`).
+- **Desktop** – a QR code for the same design with `?ar=1`, which opens the AR sheet on the phone; plus `.usdz` / `.glb` downloads.
+
+Only `arRoot` subtrees are exported and `arSkip` subtrees (house, ground, dimension labels) are left out; instanced louvers are baked at their current angle.
+
 ## Layout
 
 | Folder | What |

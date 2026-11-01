@@ -4,6 +4,8 @@ import { designToParams, paramsToDesign } from './ui/deps';
 import { viewFor } from './ui/review';
 import { Header } from './ui/Header';
 import { LeadForm } from './ui/LeadForm';
+import { ArDialog } from './ui/ArView';
+import { useUi } from './ui/hooks';
 import { Toaster } from './ui/Toast';
 import { PergolaConfigurator } from './ui/PergolaConfigurator';
 import { ScreensConfigurator } from './ui/ScreensConfigurator';
@@ -12,6 +14,8 @@ import { KitchenConfigurator } from './ui/KitchenConfigurator';
 
 /** Query keys we never own but must carry through replaceState (iframe flag, attribution). */
 const PASSTHROUGH = /^(embed|utm_[a-z]+|gclid|fbclid|msclkid|ref)$/;
+/** One-shot flags consumed on load and dropped from the address bar. */
+const ONESHOT = /^(ar)$/;
 
 export const isEmbed = new URLSearchParams(window.location.search).get('embed') === '1';
 
@@ -19,7 +23,9 @@ export const isEmbed = new URLSearchParams(window.location.search).get('embed') 
 function useUrlSync() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const hasDesign = [...params.keys()].some((k) => !PASSTHROUGH.test(k));
+    const hasDesign = [...params.keys()].some((k) => !PASSTHROUGH.test(k) && !ONESHOT.test(k));
+    // ?ar=1 (from the desktop QR code): open the AR sheet as soon as the design is restored.
+    if (params.get('ar') === '1') useUi.getState().openAr();
     if (hasDesign) {
       try {
         const { design, view } = paramsToDesign(params);
@@ -43,7 +49,7 @@ function useUrlSync() {
       }
     };
     // Like Pergolux: fill in every key on load so the address bar is always a complete share link.
-    if (hasDesign) write();
+    if (hasDesign || params.has('ar')) write();
 
     let timer: number | undefined;
     const unsub = useDesigner.subscribe((s, prev) => {
@@ -71,6 +77,7 @@ export default function App() {
       {kind === 'shades' && <ShadesConfigurator />}
       {kind === 'kitchen' && <KitchenConfigurator />}
       <LeadForm />
+      <ArDialog />
       <Toaster />
     </div>
   );

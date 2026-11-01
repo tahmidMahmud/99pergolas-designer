@@ -5,6 +5,7 @@ import { Viewer, captureSnapshot, fitCamera } from './deps';
 import { IconCamera, IconMoon, IconReset, IconSun } from './icons';
 import { Toggle } from './controls';
 import { downloadDataUrl, toast } from './Toast';
+import { ArButton } from './ArView';
 
 class ViewerBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
   state = { failed: false };
@@ -87,6 +88,7 @@ export function ViewerCard() {
           <button type="button" className="chip" onClick={snapshot}>
             <IconCamera size={16} /> Snapshot
           </button>
+          <ArButton />
         </div>
       </div>
     </div>

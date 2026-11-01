@@ -144,13 +144,16 @@ export function PergolaModel({ design, structure, layout }: { design: PergolaDes
   const parts = useMemo(() => buildFrame(design, layout), [design, layout]);
   void structure;
   return (
-    <group>
+    <group userData={{ arRoot: true }}>
       <MergedMeshes parts={parts} />
       {design.roof !== 'solid' && <Louvers design={design} layout={layout} />}
       <Enclosures design={design} layout={layout} />
       <Accessories design={design} layout={layout} />
-      {layout.hasHouse && <House width={layout.W} backZ={-layout.D / 2} structureTop={layout.top} />}
-      <Dimensions design={design} layout={layout} />
+      {/* Context only: never part of the AR export. */}
+      <group userData={{ arSkip: true }}>
+        {layout.hasHouse && <House width={layout.W} backZ={-layout.D / 2} structureTop={layout.top} />}
+        <Dimensions design={design} layout={layout} />
+      </group>
     </group>
   );
 }

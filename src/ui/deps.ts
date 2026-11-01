@@ -36,6 +36,20 @@ export function fitCamera(): void {
   void sceneModule().then((m) => m.fitCamera());
 }
 
+/** AR: USDZ for iOS Quick Look, GLB for everything else, WebXR session for Android Chrome. */
+export async function exportUsdz(): Promise<Blob> {
+  return (await sceneModule()).exportUsdz();
+}
+export async function exportGlb(): Promise<Blob> {
+  return (await sceneModule()).exportGlb();
+}
+export async function webXrArSupported(): Promise<boolean> {
+  return (await sceneModule()).webXrArSupported();
+}
+export async function startWebXrAr(opts: { overlay?: HTMLElement; onPlaced?: () => void; onEnd?: () => void }) {
+  return (await sceneModule()).startWebXrAr(opts);
+}
+
 export async function buildSpecPdf(payload: LeadPayload): Promise<{ blob: Blob; filename: string }> {
   const m = await import('../lead/pdf');
   return { blob: await m.buildSpecPdf(payload), filename: m.specPdfFilename(payload) };
