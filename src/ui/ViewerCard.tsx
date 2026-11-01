@@ -45,6 +45,7 @@ export function ViewerCard() {
   const louvered = isPergola && design.roof === 'louvered';
   const max = isPergola ? LOUVER_MAX[design.line] : 90;
   const night = view.hour >= 19;
+  const coarse = typeof window !== 'undefined' && !!window.matchMedia?.('(pointer: coarse)').matches;
 
   const snapshot = async () => {
     try {
@@ -65,6 +66,11 @@ export function ViewerCard() {
             <Viewer className="viewer-root" />
           </Suspense>
         </ViewerBoundary>
+        {coarse && (
+          <div className="viewer-hint" aria-hidden="true">
+            Drag to rotate · Two fingers to move
+          </div>
+        )}
       </div>
       <div className="viewer-tools">
         {louvered && (

@@ -1,5 +1,5 @@
 /** 3D viewer: R3F canvas with demand rendering, context-loss recovery and snapshot registration. */
-import { useEffect, useMemo, useState, type CSSProperties } from 'react';
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import * as THREE from 'three';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import type { Design, PergolaDesign, ScreensDesign } from '../types';
@@ -139,11 +139,30 @@ const overlayStyle: CSSProperties = {
 export function Viewer({ className }: ViewerProps) {
   const [lost, setLost] = useState(false);
   const [generation, setGeneration] = useState(0);
+  const wrap = useRef<HTMLDivElement>(null);
+
+  // iOS Safari ignores touch-action for page pinch-zoom and can still scroll under a drag;
+  // claim every touch gesture that starts on the viewer so it only ever drives the camera.
+  useEffect(() => {
+    const el = wrap.current;
+    if (!el) return;
+    const stop = (e: Event) => e.preventDefault();
+    const opts: AddEventListenerOptions = { passive: false };
+    el.addEventListener('touchmove', stop, opts);
+    el.addEventListener('gesturestart', stop, opts);
+    el.addEventListener('gesturechange', stop, opts);
+    return () => {
+      el.removeEventListener('touchmove', stop);
+      el.removeEventListener('gesturestart', stop);
+      el.removeEventListener('gesturechange', stop);
+    };
+  }, []);
 
   return (
     <div
+      ref={wrap}
       className={className}
-      style={{ position: 'relative', width: '100%', height: '100%', minHeight: 220, background: '#F2F1EC', overflow: 'hidden' }}
+      style={{ position: 'relative', width: '100%', height: '100%', minHeight: 220, background: '#F2F1EC', overflow: 'hidden', touchAction: 'none', overscrollBehavior: 'contain' }}
     >
       <Canvas
         key={generation}

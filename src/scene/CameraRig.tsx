@@ -74,6 +74,21 @@ export function CameraRig({ bounds, frameKey }: { bounds: Bounds; frameKey: stri
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [frameKey, hasSize]);
 
+  // Keep the design in frame: two-finger "move" slides the target on the ground, but never off-stage.
+  const clampTarget = useCallback(() => {
+    const c = controls.current;
+    if (!c) return;
+    const center = new THREE.Vector3(...bounds.center);
+    const off = c.target.clone().sub(center);
+    off.y = 0;
+    const maxR = bounds.radius * 1.1;
+    if (off.length() <= maxR && Math.abs(c.target.y - center.y) < 1e-6) return;
+    if (off.length() > maxR) off.setLength(maxR);
+    const next = center.add(off);
+    camera.position.add(next.clone().sub(c.target));
+    c.target.copy(next);
+  }, [bounds, camera]);
+
   useFrame((_, dt) => {
     const tw = tween.current;
     const c = controls.current;
@@ -93,7 +108,13 @@ export function CameraRig({ bounds, frameKey }: { bounds: Bounds; frameKey: stri
       makeDefault
       enableDamping
       dampingFactor={0.12}
-      enablePan={!coarse}
+      // Touch: one finger rotates, two fingers move the design across the ground, no pinch-resize.
+      // Mouse: drag rotates, right-drag moves, wheel zooms (within limits).
+      enablePan
+      enableZoom={!coarse}
+      screenSpacePanning={false}
+      touches={{ ONE: THREE.TOUCH.ROTATE, TWO: THREE.TOUCH.DOLLY_PAN }}
+      onChange={clampTarget}
       minPolarAngle={0.15}
       maxPolarAngle={1.45}
       minDistance={bounds.radius * 0.9}
